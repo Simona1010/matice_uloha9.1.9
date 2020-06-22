@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct{
 unsigned int rows;
@@ -43,6 +44,21 @@ void mat_unit(MAT *mat)
 	}
 }
 
+void mat_random(MAT *mat)
+{
+	printf("Spusta sa mat_random\n");
+	srand(time(NULL));
+	for(int i=0;i<(mat->rows);i++)
+	{
+		for(int j=0;j<(mat->cols);j++)
+		{
+			//vypocet random cisla z rozshahu -1 a 1 
+			//float(rand()) / (float)(RAND_MAX)) * (MAX - MIN) + MIN
+			ELEM(mat, i + 1, j + 1) = (float(rand()) / (float)(RAND_MAX)) * ( 1 - (-1)) + (-1); 
+		}	
+	}
+}
+
 main() 
 {
 	MAT maticaA;
@@ -52,8 +68,10 @@ main()
 	maticaA.elem = hodnoty;
 	mat_print(&maticaA);
 	
-	mat_unit(&maticaA);
+//	mat_unit(&maticaA);
+//	mat_print(&maticaA);
+
+	mat_random(&maticaA);
 	mat_print(&maticaA);
-	
 	
 }
