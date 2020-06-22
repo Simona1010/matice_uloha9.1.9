@@ -26,6 +26,22 @@ void mat_print(MAT *mat)
 	}
 }
 
+void mat_unit(MAT *mat)
+{
+	printf("Spusta sa mat_unit\n");
+	for(int i=0;i<(mat->rows);i++)
+	{
+		for(int j=0;j<(mat->cols);j++)
+		{
+			if(i==j){
+				//printf("nasiel diagonalu %d %d", i + 1 , j + 1);
+				ELEM(mat, i + 1, j + 1) = 1;
+			}
+			if(i!=j)
+				ELEM(mat, i + 1, j + 1) = 0; 
+		}	
+	}
+}
 
 main() 
 {
@@ -35,4 +51,9 @@ main()
 	maticaA.cols = 4;
 	maticaA.elem = hodnoty;
 	mat_print(&maticaA);
+	
+	mat_unit(&maticaA);
+	mat_print(&maticaA);
+	
+	
 }
