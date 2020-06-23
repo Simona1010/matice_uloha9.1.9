@@ -10,6 +10,7 @@ float *elem;
 
 #define ELEM(mat, i, j) (mat->elem[(i-1)* mat->cols + j - 1])
 
+
 void mat_print(MAT *mat)
 {
 	printf("Vypis Matice: \n");
@@ -59,6 +60,34 @@ void mat_random(MAT *mat)
 	}
 }
 
+void mat_destroy(MAT *mat){
+	free(mat);
+} 
+
+float mat_trace(MAT *mat){
+	float stopa=0;
+	if (mat->cols != mat->rows)
+		{
+			printf("Matica nie je NxN");
+			return 1;
+		}
+//	printf("Pocitame Stopu\n");
+	for(int i=0;i<(mat->rows);i++)
+	{
+		for(int j=0;j<(mat->cols);j++)
+		{
+			if(i==j){
+				//printf("nasiel diagonalu %d %d", i + 1 , j + 1);
+				stopa += ELEM(mat, i + 1, j + 1);
+			//	printf("%f\t",stopa);
+			}
+			
+		}	
+	}
+	printf("Stopa matice je %f\t",stopa);
+	return stopa;
+}
+
 main() 
 {
 	MAT maticaA;
@@ -66,12 +95,15 @@ main()
 	maticaA.rows = 4;
 	maticaA.cols = 4;
 	maticaA.elem = hodnoty;
-	mat_print(&maticaA);
+//	mat_print(&maticaA);
 	
 //	mat_unit(&maticaA);
 //	mat_print(&maticaA);
 
 	mat_random(&maticaA);
+
+//	mat_destroy(&maticaA);
 	mat_print(&maticaA);
+	mat_trace(&maticaA);
 	
 }
