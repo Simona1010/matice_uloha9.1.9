@@ -88,9 +88,51 @@ float mat_trace(MAT *mat){
 	return stopa;
 }
 
+MAT *mat_create_with_type(unsigned int rows, unsigned int cols)
+{
+	MAT *ptr; 
+	ptr = (MAT*) malloc(sizeof(unsigned int) * 2 + rows*cols*sizeof(float));
+	if(ptr == NULL)                     
+    {
+        printf("Error! memory not allocated.");
+        free(ptr);
+    }
+	return ptr; 
+}
+
+MAT *mat_create_by_file(char *matrix)
+{
+	FILE *ptr;
+	ptr = fopen(matrix,"rb");	// r for read, b for binary
+	
+	char mat, typ;
+	unsigned int rows, cols; 
+	
+	fread(&mat,sizeof(mat),1,ptr);	
+	fread(&typ,sizeof(typ),1,ptr); 
+	fread(&rows,sizeof(rows),1,ptr);
+	fread(&cols,sizeof(cols),1,ptr);
+
+	MAT *matica;
+	matica = mat_create_with_type(rows,cols);
+	
+	printf("Nacitali sme schemu: %c %c %u %u\n", mat, typ, rows, cols);
+	/*printf("Nacitali sme elementy:\n");
+	for (int i=0;i < (matica->rows * matica->cols);i++) 
+	{
+    	printf("%lf\n",matica->elem[i]);
+	}*/
+	printf("Element 2 2: %f\n", ELEM(matica, 1, 1));
+	fflush(stdin);
+	fread(matica->elem,sizeof(matica->elem),1,ptr);
+	
+
+}
+
 main() 
 {
 	MAT maticaA;
+	MAT *maticaB;
 	float hodnoty[] = {1,3,3,8,2,2,6,2,4,4,7,3,1,1,0,9};
 	maticaA.rows = 4;
 	maticaA.cols = 4;
@@ -100,10 +142,16 @@ main()
 //	mat_unit(&maticaA);
 //	mat_print(&maticaA);
 
-	mat_random(&maticaA);
+//	mat_random(&maticaA);
 
 //	mat_destroy(&maticaA);
-	mat_print(&maticaA);
-	mat_trace(&maticaA);
+//	mat_print(&maticaA);
+//	mat_trace(&maticaA);
+	
+	//mat_save(&maticaA, "matica");
+	//maticaB = mat_create_with_type(5,5);
+	
+	/*maticaB = mat_create_by_file("matica");
+	printf("Riadky: %u\n", maticaB->rows);*/
 	
 }
