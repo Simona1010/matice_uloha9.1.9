@@ -25,7 +25,7 @@ void mat_unit(MAT *mat);
 void mat_random(MAT *mat);
 void mat_print(MAT *mat);
 
-float mat_trace(MAT *mat);
+char mat_trace(MAT *mat,float *trace);
 
 //vytvori zakladnu datovu strukturu MAT
 MAT *mat_create_with_type(unsigned int rows, unsigned int cols)
@@ -68,14 +68,14 @@ MAT *mat_create_by_file(char *filename)
 	read(fd, &mat, sizeof(mat));   
 	if (mat != 'M' ) 
 	{
-		fprintf( stderr,"Subor neobsahuje ako prvy znak M. Nezadal si mi subor s maticou. Prvy znam ktory sa nacital bol: %c\n",mat);
+		fprintf( stderr,"Subor neobsahuje ako prvy znak M. Nezadal si mi subor s maticou. Prvy znak ktory sa nacital bol: %c\n",mat);
 		exit(1);
 	}
 
 	read(fd, &typ, sizeof(typ));
 		if (typ != '1' ) 
 	{
-		fprintf( stderr,"Subor neobsahuje ako prvy znak M. Nezadal si mi subor s maticou. Prvy znam ktory sa nacital bol: %c\n",typ);
+		fprintf( stderr,"Subor neobsahuje ako prvy znak M. Nezadal si mi subor s maticou. Prvy znak ktory sa nacital bol: %c\n",typ);
 		exit(1);
 	}
 	read(fd, &rows, sizeof(rows));
@@ -177,37 +177,43 @@ void mat_print(MAT *mat)
 	}
 }	
 
-float mat_trace(MAT *mat){
+char mat_trace(MAT *mat, float *trace)
+{
 	float stopa=0;
+	char chyba = 0;
 	if (mat->cols != mat->rows) 
-		//printf("Matica nie je NxN");
 			return 1;
+			
 	for(int i=0;i<(mat->rows);i++)
 	{
 		for(int j=0;j<(mat->cols);j++)
 		{
-			if(i==j){
+			if(i==j)
 				stopa += ELEM(mat, i + 1, j + 1);
-			}
+			
 		}	
-	}
-	return stopa;
+	}	
+	*trace = stopa; 
+
+	return chyba;
 }
 
 main() 
 {
 	srand(time(NULL));
 	MAT* maticaC;
-
+	float pomocna_premenna = 0;
+	float *stopa = &pomocna_premenna; 
+	
 	maticaC = mat_create_with_type(4,4);
 	mat_random(maticaC);
 	mat_print(maticaC);
 	printf("\n");
-	printf("Stopa matice : %f\n",mat_trace(maticaC));
-	printf("\n");
-	maticaC=mat_create_by_file("maticaC");
-	mat_print(maticaC);
-	
+	if( mat_trace(maticaC,stopa) == 1)
+		printf("Matica nie je NxN");
+	else 	
+		printf("Stopa matice : %f\n",*stopa);
+
 	mat_destroy(maticaC);
 
 }
