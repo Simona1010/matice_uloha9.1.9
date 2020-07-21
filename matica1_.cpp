@@ -203,10 +203,11 @@ char mat_trace(MAT *mat, float *trace)
 
 main() 
 {
-	srand(time(NULL));
 	MAT* maticaC;
 	float stopa;
 	
+	srand(time(NULL));
+
 	maticaC = mat_create_with_type(4,4);
 	mat_random(maticaC);
 	mat_print(maticaC);
