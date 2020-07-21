@@ -205,17 +205,16 @@ main()
 {
 	srand(time(NULL));
 	MAT* maticaC;
-	float pomocna_premenna = 0;
-	float *stopa = &pomocna_premenna; 
+	float stopa;
 	
 	maticaC = mat_create_with_type(4,4);
 	mat_random(maticaC);
 	mat_print(maticaC);
 	printf("\n");
-	if( mat_trace(maticaC,stopa) == 1)
+	if( mat_trace(maticaC,&stopa) == 1)
 		printf("Matica nie je NxN");
 	else 	
-		printf("Stopa matice : %f\n",*stopa);
+		printf("Stopa matice : %f\n",stopa);
 
 	mat_destroy(maticaC);
 
