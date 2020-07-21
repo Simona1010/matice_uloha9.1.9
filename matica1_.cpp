@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
 
 //reprezentacia hustej matice pomocou struktury 
 // row a cols mozu byt len kladne cisla
